@@ -39,8 +39,8 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
 };
 
 function isSameURL(target, current) {
-    var cleanTarget = target.protocol + '//' + target.host + target.pathname;
-    var cleanCurrent = current.protocol + '//' + current.host + current.pathname;
+    var cleanTarget = target.protocol + "//" + target.host + target.pathname + target.search;
+    var cleanCurrent = current.protocol + "//" + current.host + current.pathname + current.search;
     return cleanTarget === cleanCurrent;
 }
 
@@ -53,9 +53,6 @@ var AppProgressBar = React.memo(function (_a) {
     var searchParams = navigation.useSearchParams();
     React.useEffect(function () {
         NProgress.done();
-        return function () {
-            NProgress.start();
-        };
     }, [pathname, searchParams]);
     React.useEffect(function () {
         var timer;

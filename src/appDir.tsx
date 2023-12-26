@@ -111,9 +111,6 @@ export const AppProgressBar = React.memo(
 
     useEffect(() => {
       NProgress.done();
-      return () => {
-        NProgress.start();
-      };
     }, [pathname, searchParams]);
 
     useEffect(() => {

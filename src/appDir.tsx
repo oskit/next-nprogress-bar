@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
-import NProgress from 'nprogress';
-import { isSameURL } from './utils/sameURL';
+import React, { useEffect } from "react";
+import NProgress from "nprogress";
+import { isSameURL } from "./utils/sameURL";
 import {
   usePathname,
   useSearchParams,
   useRouter as useNextRouter,
-} from 'next/navigation';
-import { ProgressBarProps } from '.';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context';
+} from "next/navigation";
+import { ProgressBarProps } from ".";
+import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type PushStateInput = [
   data: any,
   unused: string,
-  url?: string | URL | null | undefined,
+  url?: string | URL | null | undefined
 ];
 
 export const AppProgressBar = React.memo(
   ({
-    color = '#0A2FFF',
-    height = '2px',
+    color = "#0A2FFF",
+    height = "2px",
     options,
     shallowRouting = false,
     delay = 0,
@@ -111,6 +111,9 @@ export const AppProgressBar = React.memo(
 
     useEffect(() => {
       NProgress.done();
+      return () => {
+        NProgress.start();
+      };
     }, [pathname, searchParams]);
 
     useEffect(() => {
@@ -129,7 +132,7 @@ export const AppProgressBar = React.memo(
         const anchorElement = event.currentTarget as HTMLAnchorElement;
 
         // Skip anchors with target="_blank"
-        if (anchorElement.target === '_blank') return;
+        if (anchorElement.target === "_blank") return;
 
         // Skip control/command+click
         if (event.metaKey || event.ctrlKey) return;
@@ -144,13 +147,13 @@ export const AppProgressBar = React.memo(
       };
 
       const handleMutation: MutationCallback = () => {
-        const anchorElements = document.querySelectorAll('a');
+        const anchorElements = document.querySelectorAll("a");
         // Skip anchors with target="_blank" and anchors without href
         const validAnchorELes = Array.from(anchorElements).filter(
-          (anchor) => anchor.href && anchor.target !== '_blank',
+          (anchor) => anchor.href && anchor.target !== "_blank"
         );
         validAnchorELes.forEach((anchor) =>
-          anchor.addEventListener('click', handleAnchorClick),
+          anchor.addEventListener("click", handleAnchorClick)
         );
       };
 
@@ -167,7 +170,7 @@ export const AppProgressBar = React.memo(
 
     return styles;
   },
-  () => true,
+  () => true
 );
 
 export function useRouter() {
@@ -177,7 +180,7 @@ export function useRouter() {
   function push(
     href: string,
     options?: NavigateOptions,
-    NProgressOptions?: { showProgressBar?: boolean },
+    NProgressOptions?: { showProgressBar?: boolean }
   ) {
     if (NProgressOptions?.showProgressBar === false)
       return router.push(href, options);
